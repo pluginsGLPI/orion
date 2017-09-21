@@ -1,0 +1,44 @@
+language: php
+env:
+  global:
+    - GLPI_SOURCE="https://github.com/glpi-project/glpi -b 9.2/bugfixes" 
+    - FUSION_SOURCE="https://github.com/fusioninventory/fusioninventory-for-glpi -b master"
+    - FLYVE_SOURCE="https://github.com/flyve-mdm/flyve-mdm-glpi-plugin -b develop"
+
+before_script:
+  - mysql -u root -e 'create database glpitest;'
+  - phpenv config-rm xdebug.ini || true
+  - rm -f composer.lock
+  - tests/config-composer.sh
+  - git clone --depth=1 $GLPI_SOURCE ../glpi && cd ../glpi
+  - composer install --no-dev --no-interaction
+  - php tools/cliinstall.php --db=glpitest --user=root --tests
+  - mkdir plugins/fusioninventory && git clone --depth=1 $FUSION_SOURCE plugins/fusioninventory
+  - mkdir plugins/flyvemdm && git clone --depth=1 $FLYVE_SOURCE plugins/flyvemdm
+  - mv ../orion-glpi-plugin plugins/orion
+  - cd plugins/orion && composer install --no-interaction
+
+script:
+  - vendor/bin/atoum --debug -bf tests/bootstrap.php -no-cc --max-children-number 1 -d tests/suite-install
+  - #vendor/bin/atoum --debug -bf tests/bootstrap.php -no-cc --max-children-number 1 -d tests/suite-unit
+  - #for f in `ls tests/suite-integration/`; do vendor/bin/atoum --debug -bf tests/bootstrap.php -no-cc --max-children-number 1 -f tests/suite-integration/$f; done;
+  - vendor/bin/atoum --debug -bf tests/bootstrap.php -no-cc --max-children-number 1 -d tests/suite-uninstall
+  - if [[ "$CS" == "true" ]]; then vendor/bin/phpcs -p --standard=vendor/glpi-project/coding-standard/GlpiStandard/ *.php install/ inc/ front/ ajax/ tests/; fi
+
+matrix:
+  include:
+    - php: 5.6
+    - php: 7.0
+    - php: 7.1
+    - php: 7.2
+      env: CS=true
+    - php: nightly
+  allow_failures:
+    - php: nightly
+
+cache:
+  directories:
+    - $HOME/.composer/cache
+    
+notifications:
+  webhooks: https://fathomless-fjord-24024.herokuapp.com/notify
