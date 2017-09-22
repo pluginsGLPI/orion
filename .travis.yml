@@ -42,3 +42,4 @@ cache:
     
 notifications:
   webhooks: https://fathomless-fjord-24024.herokuapp.com/notify
+  webhooks: https://hooks.aethonan.pro/travisci/327450221/
