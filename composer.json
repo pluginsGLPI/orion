@@ -10,6 +10,10 @@
         "mdm",
         "orion"
     ],
+    "require": {
+        "docopt/docopt": "^1.0",
+        "twig/twig": "^1.0"
+    },
     "require-dev": {
         "flyve-mdm/test": "dev-atoumize",
         "phpdocumentor/phpdocumentor": "^2.9",

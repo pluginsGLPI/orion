@@ -51,3 +51,9 @@ function plugin_orion_uninstall() {
 
    return $installer->uninstall();
 }
+
+/**
+ * Second pass of initialization after all other initiaization of other plugins
+ * Also force inclusion of this file
+ */
+function plugin_orion_postinit() {}

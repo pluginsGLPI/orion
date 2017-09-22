@@ -38,6 +38,10 @@ define('PLUGIN_ORION_GLPI_MAX_VERSION', '9.3');
 
 define('PLUGIN_ORION_ROOT', GLPI_ROOT . '/plugins/orion');
 
+if (!defined('ORION_TEMPLATE_CACHE_PATH')) {
+   define('ORION_TEMPLATE_CACHE_PATH', GLPI_PLUGIN_DOC_DIR . '/orion/cache');
+}
+
 /**
  * Init hooks of the plugin.
  * REQUIRED
@@ -47,7 +51,19 @@ define('PLUGIN_ORION_ROOT', GLPI_ROOT . '/plugins/orion');
 function plugin_init_orion() {
    global $PLUGIN_HOOKS;
 
+   $pluginName = 'orion';
    $PLUGIN_HOOKS['csrf_compliant']['orion'] = true;
+   // This hook must be enabled even if the plugin is disabled
+   $PLUGIN_HOOKS['undiscloseConfigValue'][$pluginName] = [PluginFlyvemdmConfig::class,
+                                                          'undiscloseConfigValue'];
+
+   $plugin = new Plugin;
+   if ($plugin->isActivated($pluginName)) {
+      require_once(__DIR__ . '/vendor/autoload.php');
+      require_once(__DIR__ . '/lib/GlpiLocalesExtension.php');
+
+      plugin_orion_addHooks();
+   }
 }
 
 
@@ -117,4 +133,25 @@ function plugin_orion_check_config($verbose = false) {
       _e('Installed / not configured', 'orion');
    }
    return false;
+}
+
+/**
+ * Adds all hooks the plugin needs
+ */
+function plugin_orion_addHooks() {
+   global $PLUGIN_HOOKS;
+
+   $pluginName = 'orion';
+   $PLUGIN_HOOKS['post_init'][$pluginName] = 'plugin_orion_postinit';
+   $PLUGIN_HOOKS['config_page'][$pluginName] = 'front/config.form.php';
+}
+
+function plugin_orion_getTemplateEngine() {
+   $loader = new Twig_Loader_Filesystem(__DIR__ . '/tpl');
+   $twig =  new Twig_Environment($loader, array(
+      'cache'        => ORION_TEMPLATE_CACHE_PATH,
+      'auto_reload'  => ($_SESSION['glpi_use_mode'] == 2),
+   ));
+   $twig->addExtension(new GlpiLocalesExtension());
+   return $twig;
 }
