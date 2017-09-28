@@ -38,8 +38,14 @@ define('PLUGIN_ORION_GLPI_MAX_VERSION', '9.3');
 
 define('PLUGIN_ORION_ROOT', GLPI_ROOT . '/plugins/orion');
 
+define('PLUGIN_ORION_API_VERSION', 'v2.0');
+
 if (!defined('ORION_TEMPLATE_CACHE_PATH')) {
    define('ORION_TEMPLATE_CACHE_PATH', GLPI_PLUGIN_DOC_DIR . '/orion/cache');
+}
+
+if (!defined('ORION_REPORT_PATH')) {
+   define('ORION_REPORT_PATH', GLPI_PLUGIN_DOC_DIR . '/orion/reports');
 }
 
 /**
@@ -60,7 +66,9 @@ function plugin_init_orion() {
    $plugin = new Plugin;
    if ($plugin->isActivated($pluginName)) {
       require_once(__DIR__ . '/vendor/autoload.php');
-      require_once(__DIR__ . '/lib/GlpiLocalesExtension.php');
+      if (!class_exists('GlpiLocalesExtension')) {
+         require_once(__DIR__ . '/lib/GlpiLocalesExtension.php');
+      }
 
       plugin_orion_addHooks();
    }

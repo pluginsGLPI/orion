@@ -91,7 +91,8 @@ class PluginOrionInstaller {
 
       $this->migration->executeMigration();
 
-      $this->createJobs();
+      $this->createDirectories();
+      $this->createAutomaticActions();
 
       Config::setConfigurationValues('orion', ['version' => PLUGIN_ORION_VERSION]);
 
@@ -131,10 +132,10 @@ class PluginOrionInstaller {
     */
    protected function upgrade($fromVersion) {
       switch ($fromVersion) {
-         case '2.0.0':
+         case '0.1.0':
             // Example : upgrade to version 3.0.0
             // $this->upgradeOneStep('3.0.0');
-         case '3.0.0':
+         case '1.0.0':
             // Example : upgrade to version 4.0.0
             // $this->upgradeOneStep('4.0.0');
 
@@ -144,7 +145,8 @@ class PluginOrionInstaller {
          $this->upgradeOneStep('dev');
       }
 
-      $this->createJobs();
+      $this->createDirectories();
+      $this->createAutomaticActions();
    }
 
    /**
@@ -168,12 +170,33 @@ class PluginOrionInstaller {
       }
    }
 
-   protected function createJobs() {
+   public function createDirectories() {
+      // Create cache directory for the template engine
+      if (! file_exists(ORION_TEMPLATE_CACHE_PATH)) {
+         if (! mkdir(ORION_TEMPLATE_CACHE_PATH, 0770, true)) {
+            $this->migration->displayWarning("Cannot create " . ORION_TEMPLATE_CACHE_PATH . " directory");
+         }
+      }
+
+      // Create directory for report files
+      if (! file_exists(ORION_REPORT_PATH)) {
+         if (! mkdir(ORION_REPORT_PATH, 0770, true)) {
+            $this->migration->displayWarning("Cannot create " . ORION_REPORT_PATH . " directory");
+         }
+      }
+   }
+
+   protected function createAutomaticActions() {
       CronTask::Register(PluginOrionTask::class, 'UpdateStatus', MINUTE_TIMESTAMP,
-            [
-                  'comment'   => __('Update the status of a task', 'orion'),
-                  'mode'      => CronTask::MODE_EXTERNAL
-            ]);
+         [
+               'comment'   => __('Update the status of a task', 'orion'),
+               'mode'      => CronTask::MODE_EXTERNAL
+         ]);
+      CronTask::Register(PluginOrionTask::class, 'PushTask', MINUTE_TIMESTAMP,
+         [
+            'comment'   => __('Create a task in the Orion webservice', 'orion'),
+            'mode'      => CronTask::MODE_EXTERNAL
+         ]);
    }
 
    /**
