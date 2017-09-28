@@ -12,7 +12,8 @@
     ],
     "require": {
         "docopt/docopt": "^1.0",
-        "twig/twig": "^1.0"
+        "twig/twig": "^1.0",
+        "guzzlehttp/guzzle": "^6.3"
     },
     "require-dev": {
         "flyve-mdm/test": "dev-atoumize",
