@@ -15,6 +15,7 @@ before_script:
   - php tools/cliinstall.php --db=glpitest --user=root --tests
   - mkdir plugins/fusioninventory && git clone --depth=1 $FUSION_SOURCE plugins/fusioninventory
   - mkdir plugins/flyvemdm && git clone --depth=1 $FLYVE_SOURCE plugins/flyvemdm
+  - cd plugins/flyvemdm && composer install --no-dev && cd ../..
   - mv ../orion-glpi-plugin plugins/orion
   - cd plugins/orion && composer install --no-interaction
 
