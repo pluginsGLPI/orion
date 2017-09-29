@@ -1,33 +1,36 @@
 {
-    "minimum-stability": "dev",
-    "prefer-stable": true,
-    "version": "0.1-dev",
-    "type": "project",
-    "licence": "AGPLv3+",
-    "keywords": [
-        "glpi",
-        "flyve",
-        "mdm",
-        "orion"
-    ],
-    "require": {
-        "docopt/docopt": "^1.0",
-        "twig/twig": "^1.0",
-        "guzzlehttp/guzzle": "^6.3"
-    },
-    "require-dev": {
-        "flyve-mdm/test": "dev-atoumize",
-        "phpdocumentor/phpdocumentor": "^2.9",
-        "evert/phpdoc-md": "^0.2.0",
-        "glpi-project/tools": "^0.1.2",
-        "atoum/atoum": "^3.2",
-        "atoum/stubs": "^2.5"
-    },
-    "repositories": [
-        {
-            "type": "vcs",
-            "url": "https://github.com/flyve-mdm/flyve-mdm-glpi-test",
-            "no-api": true
-        }
-    ]
+	"minimum-stability" : "dev",
+	"prefer-stable" : true,
+	"version" : "0.1-dev",
+	"type" : "project",
+	"licence" : "AGPLv3+",
+	"keywords" : [
+		"glpi",
+		"flyve",
+		"mdm",
+		"orion"
+	],
+	"require" : {
+		"docopt/docopt" : "^1.0",
+		"twig/twig" : "^1.0",
+		"guzzlehttp/guzzle" : "^6.3"
+	},
+	"require-dev" : {
+		"flyve-mdm/test" : "dev-atoumize",
+		"phpdocumentor/phpdocumentor" : "^2.9",
+		"evert/phpdoc-md" : "^0.2.0",
+		"glpi-project/tools" : "^0.1.2",
+		"atoum/atoum" : "^3.2",
+		"atoum/stubs" : "^2.5"
+	},
+	"repositories" : [{
+			"type" : "vcs",
+			"url" : "https://github.com/flyve-mdm/flyve-mdm-glpi-test",
+			"no-api" : true
+		}, {
+			"type" : "vcs",
+			"url" : "https://github.com/btry/tools",
+			"no-api" : true
+		}
+	]
 }

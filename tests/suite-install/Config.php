@@ -37,7 +37,7 @@ class Config extends CommonTestCase
 {
 
    /**
-    *
+    * @engine inline
     */
    public function testInstallPlugin() {
       global $DB;
@@ -51,7 +51,7 @@ class Config extends CommonTestCase
 
       //Drop plugin configuration if exists
       $config = $this->newTestedInstance();
-      $config->deleteByCriteria(array('context' => $pluginname));
+      $config->deleteByCriteria(['context' => $pluginname]);
 
       // Drop tables of the plugin if they exist
       $query = "SHOW TABLES";
@@ -75,8 +75,8 @@ class Config extends CommonTestCase
 
       // Assert the database matches the schema (disabled because it will always match)
       // TODO: migrate this test to an upgrade test
-      //$filename = GLPI_ROOT."/plugins/$pluginname/install/mysql/plugin_" . $pluginname . "_empty.sql";
-      //$this->checkInstall($filename, 'glpi_plugin_' . $pluginname . '_', 'install');
+      $filename = GLPI_ROOT."/plugins/$pluginname/install/mysql/plugin_" . $pluginname . "_empty.sql";
+      $this->checkInstall($filename, 'glpi_plugin_' . $pluginname . '_', 'install');
 
       // Enable the plugin
       $plugin->activate($plugin->fields['id']);
@@ -114,7 +114,7 @@ class Config extends CommonTestCase
       $settings = [
          'mqtt_broker_port' => '1884',
       ];
-      \Config::setConfigurationValues('orion', $settings);
+      \Config::setConfigurationValues('flyvemdm', $settings);
    }
 
    /**
@@ -123,8 +123,12 @@ class Config extends CommonTestCase
    private function installDependancies() {
 
       $this->boolean(self::login('glpi', 'glpi', true))->isTrue();
-      $pluginName = 'fusioninventory';
 
+      $this->installSinglePlugin('fusioninventory');
+      $this->installSinglePlugin('flyvemdm');
+   }
+
+   private function installSinglePlugin($pluginName) {
       $plugin = new Plugin;
       $plugin->getFromDBbyDir($pluginName);
 
@@ -135,7 +139,6 @@ class Config extends CommonTestCase
       $plugin->activate($plugin->getID());
 
       // Check the plugin is installed
-      $this->boolean($plugin->isActivated($pluginName))->isTrue();
+      $this->boolean($plugin->isActivated($pluginName))->isTrue("Failed to enable plugin $pluginName");
    }
-
 }
