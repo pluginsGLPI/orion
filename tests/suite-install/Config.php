@@ -74,9 +74,10 @@ class Config extends CommonTestCase
       $plugin->install($plugin->fields['id']);
       ob_end_clean();
 
-      // Assert the database matches the schema
-      $filename = GLPI_ROOT."/plugins/$pluginname/install/mysql/plugin_" . $pluginname . "_empty.sql";
-      $this->checkInstall($filename, 'glpi_plugin_' . $pluginname . '_', 'install');
+      // Assert the database matches the schema (disabled because it will always match)
+      // TODO: migrate this test to an upgrade test
+      //$filename = GLPI_ROOT."/plugins/$pluginname/install/mysql/plugin_" . $pluginname . "_empty.sql";
+      //$this->checkInstall($filename, 'glpi_plugin_' . $pluginname . '_', 'install');
 
       // Enable the plugin
       $plugin->activate($plugin->fields['id']);
