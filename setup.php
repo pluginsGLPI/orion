@@ -65,7 +65,9 @@ function plugin_init_orion() {
 
    $plugin = new Plugin;
    if ($plugin->isActivated($pluginName)) {
-      require_once(__DIR__ . '/vendor/autoload.php');
+      if (is_readable(__DIR__ . '/vendor/autoload.php')) {
+         require_once(__DIR__ . '/vendor/autoload.php');
+      }
       if (!class_exists('GlpiLocalesExtension')) {
          require_once(__DIR__ . '/lib/GlpiLocalesExtension.php');
       }
