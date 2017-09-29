@@ -313,6 +313,7 @@ class RoboFile extends Glpi\Tools\RoboFile
     * @throws Exception
     * @return array
     */
+   /*
    protected function getTrackedFiles($version = null) {
       $output = [];
       if ($version === null) {
@@ -324,6 +325,7 @@ class RoboFile extends Glpi\Tools\RoboFile
       }
       return $output;
    }
+   */
 
    /**
     * Enumerates all files to save in  the dsitribution archive
@@ -488,12 +490,14 @@ class RoboFile extends Glpi\Tools\RoboFile
    /**
     * Update headers in source files
     */
+   /*
    public function codeHeadersUpdate() {
       $toUpdate = $this->getTrackedFiles();
       foreach ($toUpdate as $file) {
          $this->replaceSourceHeader($file);
       }
    }
+   */
 
    /**
     * Read the header template from a file
