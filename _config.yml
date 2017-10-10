@@ -1,6 +1,9 @@
+title: android inventory agent
 email: ml-flyvemdm@teclib.com
+twitter: flyvemdm
 baseurl: "/orion-glpi-plugin"
-url: "http://flyve.org"  
+url: "http://flyve.org"   
+image: http://flyve.org/orion-glpi-plugin/images/logo2.png
 
 # Build settings
 markdown: kramdown
