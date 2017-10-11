@@ -29,6 +29,7 @@
  */
 
 use GuzzleHttp\Exception\ClientException;
+use Guzzle\Http\Exception\ServerException;
 use GuzzleHttp\Client as HttpClient;
 
 class PluginOrionTask extends CommonDBTM
@@ -41,6 +42,23 @@ class PluginOrionTask extends CommonDBTM
       unset($input['report_file']);
 
       return $input;
+   }
+
+   public static function hook_pre_plugin_flyvemdm_package_purge(CommonDBTM $item) {
+      if ($item instanceof PluginFlyvemdmPackage) {
+         $filename = FLYVEMDM_PACKAGE_PATH . "/" . $item->getField('filename');
+
+         // Crop the GLPI_DOC_DIR prefix
+         if (substr($filename, 0, strlen(GLPI_DOC_DIR)) == GLPI_DOC_DIR) {
+            $filename = substr($filename, strlen(GLPI_DOC_DIR));
+         }
+         $task = new static();
+         $task->getFromDBByCrit([
+            'filename' => $filename
+            ]
+         );
+         return $task->delete(['id' => $task->getID()], 1);
+      }
    }
 
    /**
@@ -74,7 +92,7 @@ class PluginOrionTask extends CommonDBTM
          // Dumb way for not too large apk !
          $body = [
             'filename' => basename($data['filename']),
-            'data' => base64_encode(file_get_contents(GLPI_DOC_DIR . '/' . $data['filename'])),
+            'data' => base64_encode(file_get_contents(GLPI_DOC_DIR . $data['filename'])),
             'visibility' => 'user',
             'callback_url' => '',
          ];
@@ -82,6 +100,12 @@ class PluginOrionTask extends CommonDBTM
             $request = $httpClient->request('POST', 'tasks', $options, $body);
             $response = $httpClient->send($request);
          } catch (ClientException $e) {
+            $task = new PluginOrionTask();
+            $task->update([
+               'id'     => $data['id'],
+               'status' => 'failed'
+            ]);
+         } catch (ServerException $e) {
             $task = new PluginOrionTask();
             $task->update([
                'id'     => $data['id'],
@@ -100,6 +124,7 @@ class PluginOrionTask extends CommonDBTM
             ]);
 
          }
+         $crontask->addVolume(1);
          $cronStatus++;
       }
 

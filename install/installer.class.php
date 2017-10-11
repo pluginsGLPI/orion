@@ -46,6 +46,7 @@ class PluginOrionInstaller {
 
    /**
     * Autoloader for installation
+    * @param string $classname name of the class to load
     */
    public function autoload($classname) {
       // useful only for installer GLPi autoloader already handles inc/ folder
@@ -57,11 +58,8 @@ class PluginOrionInstaller {
    }
 
    /**
-    *
     * Install the plugin
-    *
     * @return boolean true (assume success, needs enhancement)
-    *
     */
    public function install() {
       global $DB;
@@ -99,6 +97,10 @@ class PluginOrionInstaller {
       return true;
    }
 
+   /**
+    * Gets the current version of the plugin
+    * @return string
+    */
    public static function getCurrentVersion() {
       if (self::$currentVersion === NULL) {
          $config = \Config::getConfigurationValues("orion", ['version']);
@@ -127,8 +129,7 @@ class PluginOrionInstaller {
 
    /**
     * Upgrade the plugin to the current code version
-    *
-    * @param string $fromVersion
+    * @param string $fromVersion version from which the upgrade must start
     */
    protected function upgrade($fromVersion) {
       switch ($fromVersion) {
@@ -151,7 +152,6 @@ class PluginOrionInstaller {
 
    /**
     * Proceed to upgrade of the plugin to the given version
-    *
     * @param string $toVersion
     */
    protected function upgradeOneStep($toVersion) {
@@ -170,6 +170,9 @@ class PluginOrionInstaller {
       }
    }
 
+   /**
+    * Creates directories needed by the plugin
+    */
    public function createDirectories() {
       // Create cache directory for the template engine
       if (! file_exists(ORION_TEMPLATE_CACHE_PATH)) {
@@ -186,13 +189,22 @@ class PluginOrionInstaller {
       }
    }
 
+   /**
+    * Creates the automatic actions needed by the plugin
+    */
    protected function createAutomaticActions() {
-      CronTask::Register(PluginOrionTask::class, 'UpdateStatus', MINUTE_TIMESTAMP,
+      CronTask::Register(
+         PluginOrionTask::class,
+         'UpdateStatus',
+         MINUTE_TIMESTAMP,
          [
                'comment'   => __('Update the status of a task', 'orion'),
                'mode'      => CronTask::MODE_EXTERNAL
          ]);
-      CronTask::Register(PluginOrionTask::class, 'PushTask', MINUTE_TIMESTAMP,
+      CronTask::Register(
+         PluginOrionTask::class,
+         'PushTask',
+         MINUTE_TIMESTAMP,
          [
             'comment'   => __('Create a task in the Orion webservice', 'orion'),
             'mode'      => CronTask::MODE_EXTERNAL
@@ -204,7 +216,7 @@ class PluginOrionInstaller {
     * @return boolean true (assume success, needs enhancement)
     */
    public function uninstall() {
-      $this->rrmdir(GLPI_PLUGIN_DOC_DIR . "/orion");
+      Toolbox::deleteDir(GLPI_PLUGIN_DOC_DIR . "/orion");
 
       $this->deleteRelations();
       $this->deleteDisplayPreferences();
@@ -215,27 +227,6 @@ class PluginOrionInstaller {
       $config->deleteByCriteria(['context' => 'orion']);
 
       return true;
-   }
-
-   /**
-    * Cannot use the method from PluginFlyvemdmToolbox if the plugin is being uninstalled
-    * @param string $dir
-    */
-   protected function rrmdir($dir) {
-      if (file_exists($dir) && is_dir($dir)) {
-         $objects = scandir($dir);
-         foreach ($objects as $object) {
-            if ($object != "." && $object != "..") {
-               if (filetype($dir . "/" . $object) == "dir") {
-                  $this->rrmdir($dir . "/" . $object);
-               } else {
-                  unlink($dir . "/" . $object);
-               }
-            }
-         }
-         reset($objects);
-         rmdir($dir);
-      }
    }
 
    /**
@@ -293,6 +284,16 @@ class PluginOrionInstaller {
             }
          }
       }
+   }
+
+   /**
+    * http://stackoverflow.com/questions/834303/startswith-and-endswith-functions-in-php
+    * @param string $haystack
+    * @param string $needle
+    */
+   protected function endsWith($haystack, $needle) {
+      // search forward starting from end minus needle length characters
+      return $needle === '' || (($temp = strlen($haystack) - strlen($needle)) >= 0 && strpos($haystack, $needle, $temp) !== false);
    }
 
    protected function deleteDisplayPreferences() {

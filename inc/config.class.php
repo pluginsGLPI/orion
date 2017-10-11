@@ -47,10 +47,14 @@ class PluginOrionConfig extends CommonDBTM {
       echo '<form id="pluginOrion-config" method="post" action="./config.form.php">';
 
       $fields = Config::getConfigurationValues('orion');
+      $fields['orion_api_key_placeholder'] = __('your API key', 'orion');
+      if (strlen($fields['orion_api_key']) > 0) {
+         $fields['orion_api_key_placeholder'] = __('******', 'orion');
+      }
       unset($fields['orion_api_key']);
 
       $data = [
-            'config' => $fields
+         'config' => $fields
       ];
 
       $twig = plugin_orion_getTemplateEngine();
@@ -73,6 +77,9 @@ class PluginOrionConfig extends CommonDBTM {
     * @param array $input
     */
    public static function configUpdate($input) {
+      if (strlen($input['orion_api_key']) === 0) {
+         unset($input['orion_api_key']);
+      }
       return $input;
    }
 
