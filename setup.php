@@ -38,7 +38,7 @@ define('PLUGIN_ORION_GLPI_MAX_VERSION', '9.3');
 
 define('PLUGIN_ORION_ROOT', GLPI_ROOT . '/plugins/orion');
 
-define('PLUGIN_ORION_API_VERSION', 'v2.0');
+define('PLUGIN_ORION_API_VERSION', 'v1.0');
 
 if (!defined('ORION_TEMPLATE_CACHE_PATH')) {
    define('ORION_TEMPLATE_CACHE_PATH', GLPI_PLUGIN_DOC_DIR . '/orion/cache');
@@ -154,6 +154,10 @@ function plugin_orion_addHooks() {
    $pluginName = 'orion';
    $PLUGIN_HOOKS['post_init'][$pluginName] = 'plugin_orion_postinit';
    $PLUGIN_HOOKS['config_page'][$pluginName] = 'front/config.form.php';
+
+   $PLUGIN_HOOKS['pre_item_purge'][$pluginName]   = [
+      PluginFlyvemdmPackage::class => [PluginOrionTask::class, 'hook_pre_plugin_flyvemdm_package_purge'],
+   ];
 }
 
 function plugin_orion_getTemplateEngine() {

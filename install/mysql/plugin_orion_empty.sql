@@ -1,6 +1,6 @@
 DROP TABLE IF EXISTS `glpi_plugin_orion_tasks`;
 CREATE TABLE IF NOT EXISTS `glpi_plugin_orion_tasks` (
-  `id`                        int(11)                                           NOT NULL DEFAULT '0',
+  `id`                        int(11)                                           NOT NULL AUTO_INCREMENT,
   `filename`                  varchar(255)                                      DEFAULT NULL,
   `status`                    enum('pending','sent', 'running','done','failed') NOT NULL DEFAULT 'pending',
   `remote_id`                 varchar(255)                                      DEFAULT NULL,
