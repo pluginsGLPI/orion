@@ -28,9 +28,9 @@
  * ------------------------------------------------------------------------------
  */
 
-use GuzzleHttp\Exception\ClientException;
-use Guzzle\Http\Exception\ServerException;
 use GuzzleHttp\Client as HttpClient;
+use GuzzleHttp\Exception\ClientException;
+use GuzzleHttp\Exception\ServerException;
 
 class PluginOrionTask extends CommonDBTM
 {
@@ -86,19 +86,21 @@ class PluginOrionTask extends CommonDBTM
             'apikey'      => $config['orion_api_key']
         ],
       ];
-      $url = $config['orion_server'] . '/' . PLUGIN_ORION_API_VERSION . '/';
+      $url = $config['orion_server'] . '/v1.0/';
       $httpClient = new HttpClient(['base_uri' => $url]);
       foreach ($DB->request($request) as $data) {
          // Dumb way for not too large apk !
-         $body = [
+         $options['body'] = json_encode([
             'filename' => basename($data['filename']),
-            'data' => base64_encode(file_get_contents(GLPI_DOC_DIR . $data['filename'])),
-            'visibility' => 'user',
+            'visibility' => 'group',
+            'force' => false,
             'callback_url' => '',
-         ];
+            'data' => base64_encode(file_get_contents(GLPI_DOC_DIR . $data['filename'])),
+         ]);
+         $response = null;
          try {
-            $request = $httpClient->request('POST', 'tasks', $options, $body);
-            $response = $httpClient->send($request);
+            $response = $httpClient->request('POST', 'tasks', $options);
+            //$response = $httpClient->send($request);
          } catch (ClientException $e) {
             $task = new PluginOrionTask();
             $task->update([
@@ -122,7 +124,6 @@ class PluginOrionTask extends CommonDBTM
                'status'    => 'sent',
                'remote_id' => $taskData['task']['$oid']
             ]);
-
          }
          $crontask->addVolume(1);
          $cronStatus++;
@@ -158,7 +159,7 @@ class PluginOrionTask extends CommonDBTM
             'apikey'       => $config['orion_api_key']
          ],
       ];
-      $url = $config['orion_server'] . '/' . PLUGIN_ORION_API_VERSION . '/';
+      $url = $config['orion_server'] . '/v1.0/';
       $httpClient = new HttpClient(['base_uri' => $url]);
       foreach ($DB->request($request) as $data) {
          $task = new static();
