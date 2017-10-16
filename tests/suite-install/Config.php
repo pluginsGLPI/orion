@@ -37,7 +37,7 @@ class Config extends CommonTestCase
 {
 
    /**
-    * @engine inline
+    *
     */
    public function testInstallPlugin() {
       global $DB;
@@ -47,11 +47,9 @@ class Config extends CommonTestCase
       $this->given(self::setupGLPIFramework())
            ->and($this->boolean($DB->connected)->isTrue())
            ->and($this->configureGLPI())
-           ->and($this->installDependancies());
-
-      //Drop plugin configuration if exists
-      $config = $this->newTestedInstance();
-      $config->deleteByCriteria(['context' => $pluginname]);
+           ->and($this->installDependancies())
+           ->then($config = $this->newTestedInstance()) //Drop plugin configuration if exists
+           ->then($config->deleteByCriteria(['context' => $pluginname]));
 
       // Drop tables of the plugin if they exist
       $query = "SHOW TABLES";
@@ -75,8 +73,8 @@ class Config extends CommonTestCase
 
       // Assert the database matches the schema (disabled because it will always match)
       // TODO: migrate this test to an upgrade test
-      $filename = GLPI_ROOT."/plugins/$pluginname/install/mysql/plugin_" . $pluginname . "_empty.sql";
-      $this->checkInstall($filename, 'glpi_plugin_' . $pluginname . '_', 'install');
+      //$filename = GLPI_ROOT."/plugins/$pluginname/install/mysql/plugin_" . $pluginname . "_empty.sql";
+      //$this->checkInstall($filename, 'glpi_plugin_' . $pluginname . '_', 'install');
 
       // Enable the plugin
       $plugin->activate($plugin->fields['id']);
@@ -88,10 +86,10 @@ class Config extends CommonTestCase
       // Take a snapshot of the database before any test
       $this->mysql_dump($DB->dbuser, $DB->dbhost, $DB->dbpassword, $DB->dbdefault, './save.sql');
 
-      $this->boolean(file_exists("./save.sql"))->isTrue();
+      $this->boolean(file_exists("./save.sql"))->isTrue('Failed to save the rollback snapshot of the DB');
       $filestats = stat("./save.sql");
       $length = $filestats[7];
-      $this->integer($length)->isGreaterThan(0);
+      $this->integer($length)->isGreaterThan(0, 'Failed to save the rollback snapshot of the DB');
    }
 
    /**

@@ -103,7 +103,7 @@ class PluginOrionInstaller {
     */
    public static function getCurrentVersion() {
       if (self::$currentVersion === NULL) {
-         $config = \Config::getConfigurationValues("orion", ['version']);
+         $config = \Config::getConfigurationValues('orion', ['version']);
          if (!isset($config['version'])) {
             self::$currentVersion = '';
          } else {
@@ -120,6 +120,7 @@ class PluginOrionInstaller {
       $profileRight = new ProfileRight();
 
       $newRights = [
+         PluginOrionReport::$rightname => READ,
       ];
 
       $profileRight->updateProfileRights($_SESSION['glpiactiveprofile']['id'], $newRights);
@@ -134,11 +135,12 @@ class PluginOrionInstaller {
    protected function upgrade($fromVersion) {
       switch ($fromVersion) {
          case '0.1.0':
-            // Example : upgrade to version 3.0.0
-            // $this->upgradeOneStep('3.0.0');
+            // Example : upgrade to version 1.0.0
+            // $this->upgradeOneStep('1.0.0');
+
          case '1.0.0':
-            // Example : upgrade to version 4.0.0
-            // $this->upgradeOneStep('4.0.0');
+            // Example : upgrade to version 2.0.0
+            // $this->upgradeOneStep('2.0.0');
 
          default:
       }
@@ -160,7 +162,7 @@ class PluginOrionInstaller {
       $includeFile = __DIR__ . "/upgrade/update_to_$suffix.php";
       if (is_readable($includeFile) && is_file($includeFile)) {
          include_once $includeFile;
-         $updateFunction = "plugin_flyvemdm_update_to_$suffix";
+         $updateFunction = "plugin_orion_update_to_$suffix";
          if (function_exists($updateFunction)) {
             $this->migration->addNewMessageArea("Upgrade to $toVersion");
             $updateFunction($this->migration);
@@ -180,13 +182,6 @@ class PluginOrionInstaller {
             $this->migration->displayWarning("Cannot create " . ORION_TEMPLATE_CACHE_PATH . " directory");
          }
       }
-
-      // Create directory for report files
-      if (! file_exists(ORION_REPORT_PATH)) {
-         if (! mkdir(ORION_REPORT_PATH, 0770, true)) {
-            $this->migration->displayWarning("Cannot create " . ORION_REPORT_PATH . " directory");
-         }
-      }
    }
 
    /**
@@ -194,7 +189,7 @@ class PluginOrionInstaller {
     */
    protected function createAutomaticActions() {
       CronTask::Register(
-         PluginOrionTask::class,
+         PluginOrionReport::class,
          'UpdateStatus',
          MINUTE_TIMESTAMP,
          [
@@ -202,7 +197,7 @@ class PluginOrionInstaller {
                'mode'      => CronTask::MODE_EXTERNAL
          ]);
       CronTask::Register(
-         PluginOrionTask::class,
+         PluginOrionReport::class,
          'PushTask',
          MINUTE_TIMESTAMP,
          [
@@ -235,6 +230,8 @@ class PluginOrionInstaller {
    protected function createInitialConfig() {
       // New config management provided by GLPi
       $newConfig = [
+         'orion_api_key' => '',
+         'orion_server'  => '',
       ];
       Config::setConfigurationValues('orion', $newConfig);
    }
@@ -256,7 +253,7 @@ class PluginOrionInstaller {
       global $DB;
 
       $tables = [
-         PluginOrionTask::getTable()
+         PluginOrionReport::getTable()
       ];
 
       foreach ($tables as $table) {

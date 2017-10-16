@@ -38,11 +38,11 @@ $doc = <<<DOC
 cli_install.php
 
 Usage:
-   cli_install.php [--as-user USER] [--api-user-token APITOKEN] [ --tests ]
+   cli_install.php [--as-user USER] [ --force ] [ --tests ]
 
 Options:
    --as-user USER       Do install/upgrade as specified USER. If not provided, 'glpi' user will be used
-   --api-user-token     APITOKEN    APITOKEN
+   --force              Force upgrade of the plugin
    --tests              Use GLPi test database
 
 DOC;
@@ -50,10 +50,18 @@ DOC;
 $docopt = new \Docopt\Handler();
 $args = $docopt->handle($doc);
 
+define('PLUGIN_NAME', 'orion');
+
 $asUser = 'glpi';
 if (!is_null($args['--as-user'])) {
    $asUser = $args['--as-user'];
 }
+
+$force = false;
+if (isset($args['--force']) && $args['--force'] !== false) {
+   $force = true;
+}
+
 if (isset($args['--tests']) && $args['--tests'] !== false) {
    // Use test GLPi's database
    // Requires use of cliinstall of GLPI with --tests argument
@@ -103,23 +111,28 @@ if (!$DB->tableExists("glpi_configs")) {
 }
 
 $plugin = new Plugin();
+$plugin->getFromDBbyDir(PLUGIN_NAME);
+
+// Force upgrade of the plugin if already isntalled
+if ($force && $plugin->isActive(PLUGIN_NAME)) {
+   $plugin->update([
+      'id'     => $plugin->getID(),
+      'state'  => Plugin::NOTUPDATED,
+   ]);
+}
+
 
 // Install the plugin
-$plugin->getFromDBbyDir('orion');
-print("Installing Plugin Id: " . $plugin->fields['id'] . " version " . $plugin->fields['version'] . "\n");
+print("Installing Plugin Id: " . $plugin->getID() . " version " . $plugin->getField('version') . "\n");
 ob_start(function($in) { return ''; });
-$plugin->install($plugin->fields['id']);
+$plugin->install($plugin->getID());
 ob_end_clean();
 print("Install Done\n");
 
-print("setting queuednotification to Queue mode\n");
-$cronQuery = "update glpi_crontasks set mode = 2 where name ='queuednotification'";
-$DB->query($cronQuery);
-
 // Enable the plugin
 print("Activating Plugin...\n");
-$plugin->activate($plugin->fields['id']);
-if (!$plugin->activate($plugin->fields['id'])) {
+$plugin->activate($plugin->getID());
+if (!$plugin->activate($plugin->getID())) {
    print("Activation failed\n");
    exit(1);
 }
@@ -127,6 +140,6 @@ print("Activation Done\n");
 
 //Load the plugin
 print("Loading Plugin...\n");
-$plugin->load('orion');
+$plugin->load(PLUGIN_NAME);
 print("Load Done...\n");
 

@@ -1,0 +1,29 @@
+<table class="tab_cadre" cellpadding="5">
+   <tbody>
+      <tr>
+         <th colspan="3" class="">{{ __('Orion APK scanner settings', 'orion') }}</th>
+      </tr>
+      <tr>
+         <th colspan="3" class="">{{ __('Orion Web service', 'orion') }}</th>
+      </tr>
+      <tr class="tab_bg_1">
+         <td>{{ __('Orion APK scanner URL', 'orion') }}</td>
+         <td><input type="text" name="orion_server" value="{{ config.orion_server }}"></td>
+         <td>{{ __('https://orion.example.com/path/to/service', 'orion') }}</td>
+      </tr>
+      <tr class="tab_bg_1">
+         <td>{{ __('API key', 'orion') }}</td>
+         <td><input type="password" name="orion_api_key" placeholder="{{ config.orion_api_key_placeholder}}"
+            value="{{ config.orion_api_key }}"></td>
+         <td>{{ __('API key to use the service', 'orion') }}</td>
+      </tr>
+      <tr class="tab_bg_1">
+         <td class="center" colspan="2">
+            <input type="hidden" name="id" value="1" class="submit">
+            <input type="hidden" name="config_context" value="orion">
+            <input type="hidden" name="config_class" value="PluginOrionConfig">
+            <input type="submit" name="update" value="{{ __('Save') }}" class="submit">
+         </td>
+      </tr>
+   </tbody>
+</table>

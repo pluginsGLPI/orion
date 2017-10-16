@@ -57,3 +57,12 @@ function plugin_orion_uninstall() {
  * Also force inclusion of this file
  */
 function plugin_orion_postinit() {}
+
+/**
+ * handler of pre item purge hook. Runs before purge of an item
+ * @param CommonDBTM $item item being purged
+ * @return boolean true if purge allowed, false otherwise
+ */
+function plugin_orion_hook_pre_item_purge(CommonDBTM $item) {
+   return PluginOrionReport::hook_pre_item_purge($item);
+}

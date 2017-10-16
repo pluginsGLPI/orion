@@ -28,7 +28,7 @@
  * ------------------------------------------------------------------------------
  */
 
-define('PLUGIN_ORION_VERSION', '0.1');
+define('PLUGIN_ORION_VERSION', '0.1-dev');
 // is or is not an official release of the plugin
 define('PLUGIN_ORION_IS_OFFICIAL_RELEASE', false);
 // Minimal GLPI version, inclusive
@@ -38,14 +38,8 @@ define('PLUGIN_ORION_GLPI_MAX_VERSION', '9.3');
 
 define('PLUGIN_ORION_ROOT', GLPI_ROOT . '/plugins/orion');
 
-define('PLUGIN_ORION_API_VERSION', 'v1.0');
-
 if (!defined('ORION_TEMPLATE_CACHE_PATH')) {
    define('ORION_TEMPLATE_CACHE_PATH', GLPI_PLUGIN_DOC_DIR . '/orion/cache');
-}
-
-if (!defined('ORION_REPORT_PATH')) {
-   define('ORION_REPORT_PATH', GLPI_PLUGIN_DOC_DIR . '/orion/reports');
 }
 
 /**
@@ -73,6 +67,7 @@ function plugin_init_orion() {
       }
 
       plugin_orion_addHooks();
+      plugin_orion_registerClasses();
    }
 }
 
@@ -146,6 +141,14 @@ function plugin_orion_check_config($verbose = false) {
 }
 
 /**
+ * Register classes
+ */
+function plugin_orion_registerClasses() {
+   Plugin::registerClass(PluginOrionProfile::class,
+      ['addtabon' => Profile::class]);
+}
+
+/**
  * Adds all hooks the plugin needs
  */
 function plugin_orion_addHooks() {
@@ -154,10 +157,6 @@ function plugin_orion_addHooks() {
    $pluginName = 'orion';
    $PLUGIN_HOOKS['post_init'][$pluginName] = 'plugin_orion_postinit';
    $PLUGIN_HOOKS['config_page'][$pluginName] = 'front/config.form.php';
-
-   $PLUGIN_HOOKS['pre_item_purge'][$pluginName]   = [
-      PluginFlyvemdmPackage::class => [PluginOrionTask::class, 'hook_pre_plugin_flyvemdm_package_purge'],
-   ];
 }
 
 function plugin_orion_getTemplateEngine() {
@@ -168,4 +167,16 @@ function plugin_orion_getTemplateEngine() {
    ));
    $twig->addExtension(new GlpiLocalesExtension());
    return $twig;
+}
+
+/**
+ * Show the last SQL error, logs its backtrace and dies
+ * @param Migration $migration
+ */
+function plugin_orionupgrade_error(Migration $migration) {
+   global $DB;
+
+   $error = $DB->error();
+   $migration->log($error . "\n" . Toolbox::backtrace(false, '', ['Toolbox::backtrace()']), false);
+   die($error . "<br><br> Please, check migration log");
 }

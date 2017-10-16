@@ -38,7 +38,14 @@ class PluginOrionConfig extends CommonDBTM {
    const RESERVED_TYPE_RANGE_MIN = 11050;
    const RESERVED_TYPE_RANGE_MAX = 11099;
 
-   static $config = array();
+   private static $config = null;
+
+   public static function getConfigurationValues() {
+      if (static::$config === null) {
+         static::$config = Config::getConfigurationValues('orion');
+      }
+      return static::$config;
+   }
 
    /**
     * Display the configuration form for the plugin.
