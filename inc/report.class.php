@@ -115,6 +115,14 @@ class PluginOrionReport extends CommonDBTM {
          $input['date_report'],
          $input['evaluation']);
 
+      $itemtype = $input['itemtype'];
+      if (!in_array($itemtype, static::$linkableClasses) && class_exists($itemtype)) {
+         return false;
+      }
+      $item = new $itemtype();
+      $item->getFromDB($input['items_id']);
+      $input['filename'] = $item->getFilename();
+
       return $input;
    }
 
