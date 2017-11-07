@@ -46,6 +46,10 @@ class PluginOrionReport extends CommonDBTM {
    // Itemtypes reports may be linked to
    static protected $linkableClasses = [];
 
+   /**
+    * Get the status of the report
+    * @return the status
+    */
    static function getEnumStatus() {
       return [
          'pending'   => __('Pending', 'orion'),
