@@ -157,6 +157,10 @@ class PluginOrionReport extends CommonDBTM {
       }
    }
 
+   /**
+    * If the user can view an item
+    * @return the item to view
+    */
    public function canViewItem() {
       if ($this->isNewItem()) {
          return false;
