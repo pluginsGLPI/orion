@@ -102,6 +102,12 @@ class PluginOrionReport extends CommonDBTM {
       return _n('Report', 'Reports', $nb, 'orion');
    }
 
+   /**
+    * Get the tab names for item
+    * @param CommonGLPI $item 
+    * @param boolean $withtemplate if with a template or basic, by default is false
+    * @return the tab names
+    */
    function getTabNameForItem(CommonGLPI $item, $withtemplate = 0) {
       $nb = 0;
       return self::createTabEntry(self::getTypeName($nb), $nb);
