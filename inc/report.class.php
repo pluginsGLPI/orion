@@ -126,6 +126,12 @@ class PluginOrionReport extends CommonDBTM {
       return $input;
    }
 
+   /**
+    * Show the tab content according the item
+    * @param CommonGLPI $item the item on which the tab is to be displayed
+    * @param int $tabnum number of the tab
+    * @param boolean $withtemplate if with a template or basic, by default is false
+    */
    static function displayTabContentForItem(CommonGLPI $item, $tabnum = 1, $withtemplate = 0) {
       if (in_array($item->getType(), static::$linkableClasses)) {
          static::showForItem($item);
