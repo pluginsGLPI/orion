@@ -107,6 +107,11 @@ class PluginOrionReport extends CommonDBTM {
       return self::createTabEntry(self::getTypeName($nb), $nb);
    }
 
+   /**
+    * Prepare input data for adding the item
+    * @param array $input the data to prepare
+    * @return $input the modified data
+    */
    public function prepareInputForAdd($input) {
       unset($input['status'],
          $input['remote_id'],
