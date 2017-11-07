@@ -60,6 +60,10 @@ class PluginOrionReport extends CommonDBTM {
       ];
    }
 
+   /**
+    * Get the evaluation of the report
+    * @return the evaluation
+    */
    static function getEnumEvaluation() {
       return [
          'n/a'    => __('n/a', 'orion'),
