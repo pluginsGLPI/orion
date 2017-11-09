@@ -112,7 +112,7 @@ class PluginOrionReport extends CommonDBTM {
 
    /**
     * Get the tab names for item
-    * @param CommonGLPI $item 
+    * @param CommonGLPI $item
     * @param boolean $withtemplate if with a template or basic, by default is false
     * @return the tab names
     */
