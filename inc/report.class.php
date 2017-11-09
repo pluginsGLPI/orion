@@ -107,7 +107,7 @@ class PluginOrionReport extends CommonDBTM {
     * @return string
     */
    public static function getTypeName($nb = 0) {
-      return _n('Report', 'Reports', $nb, 'orion');
+      return _n('Orion report', 'Orion reports', $nb, 'orion');
    }
 
    /**
