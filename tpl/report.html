@@ -12,14 +12,22 @@
 			<th width='10'>{{ __('ID') }}</th>
 			<th width='10'>{{ __('Status') }}</th>
 			<th width='10'>{{ __('Date') }}</th>
-			<th width='10'>{{ __('Evaluation', 'orion') }}</th>
+			<th width='10'>{{ __('Evaluation of risk', 'orion') }}</th>
 		</tr>
 		{% for report in reports %}
 		<tr class='tab_bg_1'>
 			<td class='center'>{{ report.id }}</td>
 			<td class='center'>{{ report.status }}</td>
 			<td class='center'>{{ report.date_report }}</td>
-			<td class='center'>{{ report.evaluation }}</td>
+			{% if report.evaluation == 'low' %}
+				<td class='center plugin_orion_riskLow'>{{ report.evaluation }}</td>
+			{% elseif report.evaluation == 'medium' %}
+				<td class='center plugin_orion_riskMedium'>{{ report.evaluation }}</td>
+			{% elseif report.evaluation == 'high' %}
+				<td class='center plugin_orion_riskHigh'>{{ report.evaluation }}</td>
+			{% else %}
+				<td class='center'>{{ report.evaluation }}</td>
+			{% endif %}
 		</tr>
 		{% endfor %}
 	</table>

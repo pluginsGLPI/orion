@@ -1,0 +1,11 @@
+.plugin_orion_riskHigh {
+	background: LightCoral;
+}
+
+.plugin_orion_riskMedium {
+	background: #ff6600;
+}
+
+.plugin_orion_riskLow {
+	background: LightGreen;
+}
