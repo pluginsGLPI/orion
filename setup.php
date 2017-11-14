@@ -163,6 +163,8 @@ function plugin_orion_addHooks() {
    $pluginName = 'orion';
    $PLUGIN_HOOKS['post_init'][$pluginName] = 'plugin_orion_postinit';
    $PLUGIN_HOOKS['config_page'][$pluginName] = 'front/config.form.php';
+   $PLUGIN_HOOKS['add_css']['orion'][] = "css/style.css";
+
 }
 
 function plugin_orion_getTemplateEngine() {
