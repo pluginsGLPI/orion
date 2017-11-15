@@ -494,7 +494,7 @@ class PluginOrionReport extends CommonDBTM {
             'id'                 => '7',
             'table'              => PluginFlyvemdmPackage::getTable(),
             'field'              => 'id',
-            'name'               => _n('Package', 'Packages', Session::getPluralNumber()),
+            'name'               => _n('Package', 'Packages', Session::getPluralNumber(), 'flyvemdm'),
             'datatype'           => 'dropdown',
             'massiveaction'      => false,
             'joinparams'         => [
@@ -507,7 +507,7 @@ class PluginOrionReport extends CommonDBTM {
             'id'                 => '8',
             'table'              => PluginFlyvemdmPackage::getTable(),
             'field'              => 'id',
-            'name'               => _n('File', 'Files', Session::getPluralNumber()),
+            'name'               => _n('File', 'Files', Session::getPluralNumber(), 'flyvemdm'),
             'datatype'           => 'dropdown',
             'massiveaction'      => false,
             'joinparams'         => [
