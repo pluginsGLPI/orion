@@ -468,4 +468,55 @@ class PluginOrionReport extends CommonDBTM {
       $twig = plugin_orion_getTemplateEngine();
       echo $twig->render('report.html', $data);
    }
+
+   public function getSearchOptionsNew() {
+      $tab = parent::getSearchOptionsNew();
+
+      $tab[] = [
+         'id'                 => '3',
+         'table'              => $this::getTable(),
+         'field'              => 'date_report',
+         'name'               => __('Report date', 'orion'),
+         'datatype'           => 'datetime'
+      ];
+
+      $tab[] = [
+         'id'                 => '4',
+         'table'              => $this::getTable(),
+         'field'              => 'evaluation',
+         'name'               => __('Evaluation of risk', 'orion'),
+         'datatype'           => 'string'
+      ];
+
+      $plugin = new Plugin();
+      if ($plugin->isActivated('flyvemdm')) {
+         $tab[] = [
+            'id'                 => '7',
+            'table'              => PluginFlyvemdmPackage::getTable(),
+            'field'              => 'id',
+            'name'               => _n('Package', 'Packages', Session::getPluralNumber()),
+            'datatype'           => 'dropdown',
+            'massiveaction'      => false,
+            'joinparams'         => [
+               'jointype'           => 'itemtype_item_revert',
+               'specific_itemtype' => 'PluginFlyvemdmPackage',
+            ]
+         ];
+
+         $tab[] = [
+            'id'                 => '8',
+            'table'              => PluginFlyvemdmPackage::getTable(),
+            'field'              => 'id',
+            'name'               => _n('File', 'Files', Session::getPluralNumber()),
+            'datatype'           => 'dropdown',
+            'massiveaction'      => false,
+            'joinparams'         => [
+               'jointype'           => 'itemtype_item_revert',
+               'specific_itemtype' => 'PluginFlyvemdmFile',
+            ]
+         ];
+      }
+
+      return $tab;
+   }
 }
