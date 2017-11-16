@@ -36,9 +36,9 @@ This plugin for GLPI is a subproject of Flyve MDM, it allows to connect to GLPI 
 
 ## Matrix
 
-|**GLPI Version**|9.1.1|9.1.2|9.1.3|9.1.5|9.1.6|9.2.0|
-|:----|----|----|----|---|---|---|
-|**GLPI API Client**|||||||
+|**GLPI Version**|9.2.1|
+|:----|---|
+|**GLPI API Client**||
 
 ## Documentation
 
