@@ -38,7 +38,8 @@ This plugin for GLPI is a subproject of Flyve MDM, it allows to connect to GLPI 
 
 |**GLPI Version**|9.2.1|
 |:----|---|
-|**GLPI API Client**||
+|**Orion plugin for GLPI**|1.0.0-dev|
+|**Orion Web service **|2.4.3|
 
 ## Documentation
 
