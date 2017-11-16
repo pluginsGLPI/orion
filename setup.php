@@ -32,7 +32,7 @@ define('PLUGIN_ORION_VERSION', '0.1-dev');
 // is or is not an official release of the plugin
 define('PLUGIN_ORION_IS_OFFICIAL_RELEASE', false);
 // Minimal GLPI version, inclusive
-define('PLUGIN_ORION_GLPI_MIN_VERSION', '9.2');
+define('PLUGIN_ORION_GLPI_MIN_VERSION', '9.2.1');
 // Maximum GLPI version, exclusive
 define('PLUGIN_ORION_GLPI_MAX_VERSION', '9.3');
 
