@@ -505,7 +505,7 @@ class PluginOrionReport extends CommonDBTM {
 
          $tab[] = [
             'id'                 => '8',
-            'table'              => PluginFlyvemdmPackage::getTable(),
+            'table'              => PluginFlyvemdmFile::getTable(),
             'field'              => 'id',
             'name'               => _n('File', 'Files', Session::getPluralNumber(), 'flyvemdm'),
             'datatype'           => 'dropdown',
