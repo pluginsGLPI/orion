@@ -1,6 +1,7 @@
 DROP TABLE IF EXISTS `glpi_plugin_orion_reports`;
 CREATE TABLE IF NOT EXISTS `glpi_plugin_orion_reports` (
   `id`                        int(11)                                           NOT NULL AUTO_INCREMENT,
+  `name`                      varchar(255)                                      DEFAULT NULL, 
   `itemtype`                  varchar(255)                                      DEFAULT NULL,
   `items_id`                  int(11)                                           NOT NULL DEFAULT '0',   
   `filename`                  varchar(255)                                      DEFAULT NULL,
