@@ -2,11 +2,11 @@
 
 ![GLPI banner](https://user-images.githubusercontent.com/29282308/31666160-8ad74b1a-b34b-11e7-839b-043255af4f58.png)
 
-[![License](https://img.shields.io/github/license/flyve-mdm/flyve-mdm-glpi-plugin.svg?&label=License)](https://github.com/flyve-mdm/orion-glpi-plugin/blob/develop/LICENSE.md)
+[![License](https://img.shields.io/github/license/flyve-mdm/orion.svg?&label=License)](https://github.com/flyve-mdm/orion/blob/develop/LICENSE.md)
 [![Follow twitter](https://img.shields.io/twitter/follow/GLPI.svg?style=social&label=Twitter&style=flat-square)](https://twitter.com/glpi_project)
 [![Telegram Group](https://img.shields.io/badge/Telegram-Group-blue.svg)](https://t.me/glpien)
 [![Conventional Commits](https://img.shields.io/badge/Conventional%20Commits-1.0.0-yellow.svg)](https://conventionalcommits.org)
-[![GitHub release](https://img.shields.io/github/release/flyve-mdm/orion-glpi-plugin.svg)](https://github.com/flyve-mdm/orion-glpi-plugin/releases)
+[![GitHub release](https://img.shields.io/github/release/flyve-mdm/orion.svg)](https://github.com/flyve-mdm/orion/releases)
 [![Project Status: Active - The project has reached a stable, usable state and is being actively developed.](http://www.repostatus.org/badges/latest/active.svg)](http://www.repostatus.org/#active)
 
 GLPI (_Gestionnaire Libre de Parc Informatique_) is a free IT Asset Management, issue tracking system and service desk solution. This open source software is written in PHP.
@@ -32,7 +32,7 @@ This plugin for GLPI is a subproject of Flyve MDM, it allows to connect to GLPI 
 
 | **Release channel** | **Beta channel** |
 |:---:|:---:|
-| [![Build Status](https://travis-ci.org/flyve-mdm/orion-glpi-plugin.svg?branch=master)](https://travis-ci.org/flyve-mdm/orion-glpi-plugin) | [![Build Status](https://travis-ci.org/flyve-mdm/orion-glpi-plugin.svg?branch=develop)](https://travis-ci.org/flyve-mdm/orion-glpi-plugin) |
+| [![Build Status](https://travis-ci.org/flyve-mdm/orion.svg?branch=master)](https://travis-ci.org/flyve-mdm/orion) | [![Build Status](https://travis-ci.org/flyve-mdm/orion.svg?branch=develop)](https://travis-ci.org/flyve-mdm/orion) |
 
 ## Matrix
 
@@ -43,20 +43,20 @@ This plugin for GLPI is a subproject of Flyve MDM, it allows to connect to GLPI 
 
 ## Documentation
 
-We maintain a detailed documentation of the project on the [website](http://flyve.org/orion-glpi-plugin/).
+We maintain a detailed documentation of the project on the [website](http://flyve.org/orion/).
 
 ## Versioning
 
 In order to provide transparency on our release cycle and to maintain backward compatibility, GLPI is maintained under [the Semantic Versioning guidelines](http://semver.org/). We are committed to following and complying with the rules, the best we can.
 
-See [the tags section of our GitHub project](http://github.com/flyve-mdm/orion-glpi-plugin/tags) for changelogs for each release version. Release announcement posts on [the official Teclib' blog](http://www.teclib-edition.com/en/communities/blog-posts/) contain summaries of the most noteworthy changes made in each release.
+See [the tags section of our GitHub project](http://github.com/flyve-mdm/orion/tags) for changelogs for each release version. Release announcement posts on [the official Teclib' blog](http://www.teclib-edition.com/en/communities/blog-posts/) contain summaries of the most noteworthy changes made in each release.
 
 ## Contribute
 
 Want to file a bug, contribute some code, or improve documentation? Excellent! Read up on our
-guidelines for [contributing](./CONTRIBUTING.md) and then check out one of our issues in the [Issues Dashboard](https://github.com/flyve-mdm/orion-glpi-plugin/issues).
+guidelines for [contributing](./CONTRIBUTING.md) and then check out one of our issues in the [Issues Dashboard](https://github.com/flyve-mdm/orion/issues).
 
-If you are not a developer you may contribute the project by [translating it](https://www.transifex.com/flyve-mdm/public/), by [submitting documentation](https://github.com/flyve-mdm/orion-glpi-plugin/blob/develop/.github/CONTRIBUTING.md#submit-a-pull-request) or by testing the product.
+If you are not a developer you may contribute the project by [translating it](https://www.transifex.com/flyve-mdm/public/), by [submitting documentation](https://github.com/flyve-mdm/orion/blob/develop/.github/CONTRIBUTING.md#submit-a-pull-request) or by testing the product.
 
 ## Contact
 

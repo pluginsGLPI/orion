@@ -37,7 +37,7 @@ You can _**request**_ a new feature by submitting an issue, and if you would lik
 
 ### Issue submission
 
-Before submitting the issue please check the [issue tracker](https://github.com/flyve-mdm/orion-glpi-plugin/issues), there exists the possibility that the bug was already reported by other contributor.
+Before submitting the issue please check the [issue tracker](https://github.com/flyve-mdm/orion/issues), there exists the possibility that the bug was already reported by other contributor.
 
 This way you help us to maximize the effort we can spend fixing issues and adding new features, by not reporting duplicate issues.
 
@@ -51,7 +51,7 @@ We'll work very hard to fix all the issues without delay, but before fixing it w
 * Related Issues - has a similar issue been reported before?
 * Suggest a Fix - if you can't fix the bug yourself, perhaps you can point to what might be causing the problem (line of code or commit)
 
-You can file new issues by filling out our [new issue form](https://github.com/flyve-mdm/orion-glpi-plugin/issues/new).
+You can file new issues by filling out our [new issue form](https://github.com/flyve-mdm/orion/issues/new).
 
 ### Submit a Pull Request
 
@@ -73,7 +73,7 @@ Before submitting your Pull Request check  for an open or closed PR that relates
     git push origin my-fix-branch
 ```
 
-* In GitHub, send a pull request to our [Repository](https://github.com/flyve-mdm/orion-glpi-plugin).
+* In GitHub, send a pull request to our [Repository](https://github.com/flyve-mdm/orion).
 
 * If we suggest changes then:
 

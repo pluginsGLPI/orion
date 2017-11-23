@@ -1,7 +1,7 @@
 repository:
-  name: orion-glpi-plugin
+  name: orion
   description: GLPI Plugin for Orion Malware Analysis 
-  homepage: http://flyve.org/orion-glpi-plugin/
+  homepage: http://flyve.org/orion/
   topics: glpi, orion, plugin
   private: false
   has_issues: true
